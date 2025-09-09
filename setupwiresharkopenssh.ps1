@@ -63,3 +63,6 @@ Get-NetIPAddress -InterfaceAlias $Interface
 Get-DnsClientServerAddress -InterfaceAlias $Interface
 
 Write-Output "Script finalizado com sucesso!"
+
+#executar Invoke-WebRequest -Uri 'https://github.com/Kirishimya/ApoioTecnicoNPITISala201/raw/refs/heads/main/setupwiresharkopenssh.ps1' -OutFile "$env:TEMP\setupwiresharkopenssh.ps1"; & "$env:TEMP\setupwiresharkopenssh.ps1"
+
