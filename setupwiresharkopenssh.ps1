@@ -1,7 +1,19 @@
 # =============================
 # CONFIGURAÇÃO DE INTERFACE
 # =============================
-$Interface = "Ethernet"  # Substitua pelo nome correto da interface
+# Detecta a primeira interface de rede com status "Up" e que tenha um endereço IPv4 válido
+$Interface = Get-NetAdapter |
+    Where-Object { $_.Status -eq "Up" -and $_.InterfaceOperationalStatus -eq "Up" } |
+    Sort-Object -Property ifIndex |
+    Select-Object -First 1 -ExpandProperty Name
+
+if (-not $Interface) {
+    Write-Error "Nenhuma interface de rede ativa encontrada."
+    exit
+}
+
+Write-Output "Interface de rede detectada: $Interface"
+
 
 # Pega IP atual, máscara e gateway
 $CurrentIP = (Get-NetIPAddress -InterfaceAlias $Interface -AddressFamily IPv4 | Where-Object {$_.PrefixOrigin -eq "Dhcp"}).IPAddress
